@@ -1,0 +1,112 @@
+{
+  "i18nMap": {
+    "zh": {
+      "name": "日期倒计时",
+      "label": "根据截止日期计算倒计时",
+      "label_ddl": "截止日期",
+      "label_format": "倒计时格式",
+      "expired": "已过期",
+      "tY": "年",
+      "tM": "月",
+      "tD": "天"
+    },
+    "en": {
+      "name": "Date Countdown",
+      "label": "Date countdown until deadline",
+      "label_ddl":"Deadline",
+      "label_format": "Countdown format",
+      "expired": "Expired",
+      "tY": " years ",
+      "tM": " months ",
+      "tD": " days"
+    }
+  },
+  "fields": [
+    {
+      "customFieldId": "Do_Countdown",
+      "fieldType": 20,
+      "iconSvgUrl": "",
+      "name": "${{name}}",
+      "externalData": {
+        "formulaTemplate": "IF(ISBLANK([{$ ddl.name $}]), \"\", IF([{$ ddl.name $}] < TODAY(), \"❌${{expired}}\", IF({$ format.value $}=1, IF(DATEDIF(TODAY(), [{$ ddl.name $}], \"D\")=0, \"⚠️0${{tD}}\", CONCATENATE( IF(DATEDIF(TODAY(), [{$ ddl.name $}], \"Y\")=0, \"\", DATEDIF(TODAY(), [{$ ddl.name $}], \"Y\")&\"${{tY}}\"), IF(DATEDIF(TODAY(), [{$ ddl.name $}], \"YM\")=0, \"\", DATEDIF(TODAY(), [{$ ddl.name $}], \"YM\")&\"${{tM}}\"), IF(DATEDIF(TODAY(), [{$ ddl.name $}], \"MD\")=0, \"\", DATEDIF(TODAY(), [{$ ddl.name $}], \"MD\")&\"${{tD}}\") ) ), IF({$ format.value $}=2, IF(DATEDIF(TODAY(), [{$ ddl.name $}], \"M\")=0, \"0${{tM}}\", CONCATENATE( IF(DATEDIF(TODAY(), [{$ ddl.name $}], \"Y\")=0, \"\", DATEDIF(TODAY(), [{$ ddl.name $}], \"Y\")&\"${{tY}}\"), IF(DATEDIF(TODAY(), [{$ ddl.name $}], \"YM\")=0, \"\", DATEDIF(TODAY(), [{$ ddl.name $}], \"YM\")&\"${{tM}}\") ) ), IF({$ format.value $}=3, IF(DATEDIF(TODAY(), [{$ ddl.name $}], \"D\")=0, \"⚠️0${{tD}}\", CONCATENATE( IF(DATEDIF(TODAY(), [{$ ddl.name $}], \"M\")=0, \"\", DATEDIF(TODAY(), [{$ ddl.name $}], \"M\")&\"${{tM}}\"), IF(DATEDIF(TODAY(), [{$ ddl.name $}], \"MD\")=0, \"\", DATEDIF(TODAY(), [{$ ddl.name $}], \"MD\")&\"${{tD}}\") ) ), IF({$ format.value $}=4, DATEDIF(TODAY(), [{$ ddl.name $}], \"Y\")&\"${{tY}}\", IF({$ format.value $}=5, DATEDIF(TODAY(), [{$ ddl.name $}], \"M\")&\"${{tM}}\", IF({$ format.value $}=6, IF(DATEDIF(TODAY(), [{$ ddl.name $}], \"D\")=0, \"⚠️0${{tD}}\", DATEDIF(TODAY(), [{$ ddl.name $}], \"D\")&\"${{tD}}\"), \"<error>\" ) ) ) ) ) ) ) )"
+      },
+      "uiSchema": {
+        "fieldsConfigEditor": {
+          "component": "openFieldMetaEditor",
+          "props": {
+            "schema": {
+              "items": [
+                {
+                  "key": "ddl",
+                  "label": "${{label_ddl}}",
+                  "component": "FieldSelect",
+                  "placeholder": "请选择日期字段",
+                  "props": {
+                    "supportType": [
+                      5,
+                      1001,
+                      1002
+                    ]
+                  },
+                  "validator": {
+                    "required": true
+                  }
+                },
+                {
+                  "key": "format",
+                  "label": "${{label_format}}",
+                  "component": "Radio",
+                  "placeholder": "请选择",
+                  "defaultValue": {
+                    "value": 1,
+                    "label": "${{tY}}${{tM}}${{tD}}"
+                  },
+                  "props": {
+                    "options": [
+                      {
+                        "value": 1,
+                        "label": "${{tY}}${{tM}}${{tD}}"
+                      },
+                      {
+                        "value": 2,
+                        "label": "${{tY}}${{tM}}"
+                      },
+                      {
+                        "value": 3,
+                        "label": "${{tM}}${{tD}}"
+                      },
+                      {
+                        "value": 4,
+                        "label": "${{tY}}"
+                      },
+                      {
+                        "value": 5,
+                        "label": "${{tM}}"
+                      },
+                      {
+                        "value": 6,
+                        "label": "${{tD}}"
+                      }
+                    ]
+                  },
+                  "validator": {
+                    "required": true
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "disableNativeCellOperate": true,
+      "showNativeFieldEditor": false,
+      "presetFieldConfig": {
+        "fieldProperty": {
+          "dataType": {
+            "type": 1
+          }
+        }
+      }
+    }
+  ]
+}
